@@ -4,6 +4,7 @@ namespace app\controllers;
 
 use app\models\Article;
 use app\models\Category;
+use SebastianBergmann\CodeCoverage\TestFixture\C;
 use Yii;
 use yii\data\Pagination;
 use yii\filters\AccessControl;
@@ -96,13 +97,35 @@ class SiteController extends Controller
             'categories'=>$categories
         ]);
     }
-    public function actionView()
+    public function actionView($id)
     {
-        return $this->render('single');
+        $popular = Article::getPopular();
+        $recent = Article::getRecent();
+        $categories = Category::getAll();
+
+        $article = Article::findOne($id);
+        return $this->render('single', [
+            'article' => $article,
+            'popular'=>$popular,
+            'recent'=>$recent,
+            'categories'=>$categories
+        ]);
     }
-    public function actionCategory()
+    public function actionCategory($id)
     {
-        return $this->render('category');
+        $data =Category::getArticlesByCategory($id);
+        $popular = Article::getPopular();
+        $recent = Article::getRecent();
+        $categories = Category::getAll();
+
+        return $this->render('category',[
+            'articles'=>$data['articles'],
+            'pagination'=>$data['pagination'],
+            'popular'=>$popular,
+            'recent'=>$recent,
+            'categories'=>$categories
+
+        ]);
     }
 
     /**
