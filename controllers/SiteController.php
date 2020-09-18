@@ -64,17 +64,36 @@ class SiteController extends Controller
      */
     public function actionIndex()
     {
-        $query = Article::find();
-        $count = $query ->count();
-        $pagination = new Pagination(['totalCount' => $count, 'pageSize'=>1]);
-        $article = $query->offset($pagination->offset)
-            ->limit($pagination->limit)
-            ->all();
-
+//        $query = Article::find();
+//        $count = $query ->count();
+//        $pagination = new Pagination(['totalCount' => $count, 'pageSize'=>1]);
+//        $article = $query->offset($pagination->offset)
+//            ->limit($pagination->limit)
+//            ->all();
+//
+//        $popular = Article::find()->orderBy('viewed desc')->limit(3)->all();
+//        $recent = Article::find()->orderBy('date desc')->limit(4)->all();
+//        $categories = Category::find()->all();
+//
+//
+//        return $this->render('index',[
+//            'articles'=>$article,
+//            'pagination'=>$pagination,
+//            'popular' => $popular,
+//            'recent' => $recent,
+//            'categories' => $categories
+//        ]);
+        $data = Article::getAll(5);
+        $popular = Article::getPopular();
+        $recent = Article::getRecent();
+        $categories = Category::getAll();
 
         return $this->render('index',[
-            'articles'=>$article,
-            'pagination'=>$pagination,
+            'articles'=>$data['articles'],
+            'pagination'=>$data['pagination'],
+            'popular'=>$popular,
+            'recent'=>$recent,
+            'categories'=>$categories
         ]);
     }
     public function actionView()
