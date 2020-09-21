@@ -60,7 +60,7 @@ PublicAsset::register($this);
                         <?= Html::beginForm(['/auth/logout'], 'post')
                         . Html::submitButton(
                                 'Выйти ('. Yii::$app->user->identity->name . ')',
-                                ['class'=> 'btn btn-link logout', 'style'=> "padding-top:10px;"]
+                                ['class'=> 'btn btn-link logout', 'style'=> "padding-top:20px;"]
                         )
                         . Html::endForm()
                         ?>

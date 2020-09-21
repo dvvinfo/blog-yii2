@@ -6,6 +6,7 @@ namespace app\controllers;
 
 
 use app\models\LoginForm;
+use app\models\SingupForm;
 use app\models\User;
 use Yii;
 use yii\web\Controller;
@@ -30,7 +31,7 @@ class AuthController extends Controller
         }
 
         $model->password = '';
-        return $this->render('/site/login', [
+        return $this->render('login', [
             'model' => $model,
         ]);
     }
@@ -45,6 +46,32 @@ class AuthController extends Controller
         Yii::$app->user->logout();
 
         return $this->goHome();
+    }
+
+    public function actionSignup()
+    {
+        $model = new SingupForm();
+
+        if (Yii::$app->request->isPost)
+        {
+            $model->load(Yii::$app->request->post());
+            if ($model->signup())
+            {
+                return $this->redirect(['auth/login']);
+            }
+
+        }
+        return $this->render('signup', ['model' => $model]);
+
+    }
+
+    public function actionLoginVk($uid, $first_name, $photo)
+    {
+        $user = new User();
+        if($user->saveFromVk($uid, $first_name, $photo))
+        {
+            return $this->redirect(['site/index']);
+        }
     }
 
     public function actionTest()
