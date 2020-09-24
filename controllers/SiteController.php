@@ -3,7 +3,10 @@
 namespace app\controllers;
 
 use app\models\Article;
+use app\models\ArticleTag;
 use app\models\Category;
+use app\models\CommentForm;
+use app\models\Tag;
 use SebastianBergmann\CodeCoverage\TestFixture\C;
 use Yii;
 use yii\data\Pagination;
@@ -102,13 +105,19 @@ class SiteController extends Controller
         $popular = Article::getPopular();
         $recent = Article::getRecent();
         $categories = Category::getAll();
-
         $article = Article::findOne($id);
+        $comments = $article->getArticleComments();
+        $commentForm = new CommentForm();
+
+        $article-> viewedCounter();
+
         return $this->render('single', [
             'article' => $article,
             'popular'=>$popular,
             'recent'=>$recent,
-            'categories'=>$categories
+            'categories'=>$categories,
+            'comments'=>$comments,
+            'commentForm'=>$commentForm,
         ]);
     }
     public function actionCategory($id)
@@ -156,5 +165,19 @@ class SiteController extends Controller
     public function actionAbout()
     {
         return $this->render('about');
+    }
+    public function actionComment($id)
+    {
+        $model = new CommentForm();
+
+        if(Yii::$app->request->isPost)
+        {
+            $model->load(Yii::$app->request->post());
+            if($model->saveComment($id))
+            {
+                Yii::$app->getSession()->setFlash('comment', 'Ваш комментарий будет добавлен в ближайшее время!');
+                return $this->redirect(['site/view','id'=>$id]);
+            }
+        }
     }
 }

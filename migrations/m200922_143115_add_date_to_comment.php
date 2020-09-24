@@ -12,6 +12,7 @@ class m200922_143115_add_date_to_comment extends Migration
      */
     public function safeUp()
     {
+        $this->addColumn('comment', 'date', $this->date());
 
     }
 
@@ -20,7 +21,7 @@ class m200922_143115_add_date_to_comment extends Migration
      */
     public function safeDown()
     {
-        echo "m200922_143115_add_date_to_comment cannot be reverted.\n";
+        $this->dropColumn('comment', 'date');
 
         return false;
     }

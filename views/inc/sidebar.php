@@ -5,7 +5,7 @@ use yii\helpers\Url;
     <div class="primary-sidebar">
 
         <aside class="widget">
-            <h3 class="widget-title text-uppercase text-center">Popular Posts</h3>
+            <h3 class="widget-title text-uppercase text-center">Популярные посты</h3>
             <?php
 
             foreach ($popular as $article):?>
@@ -27,7 +27,7 @@ use yii\helpers\Url;
 
         </aside>
         <aside class="widget pos-padding">
-            <h3 class="widget-title text-uppercase text-center">Recent Posts</h3>
+            <h3 class="widget-title text-uppercase text-center">Последние посты</h3>
             <?php foreach ($recent as $article):?>
                 <div class="thumb-latest-posts">
 

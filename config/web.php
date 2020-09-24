@@ -58,6 +58,16 @@ $config = [
             'class' => 'app\modules\admin\Module',
         ],
     ],
+    'controllerMap' => [
+        'elfinder' => [
+            'class' => 'mihaildev\elfinder\PathController',
+            'access' => ['@'],
+            'root' => [
+                'path' => 'upload/files',
+                'name' => 'Files'
+            ],
+        ]
+    ],
     'params' => $params,
 ];
 
